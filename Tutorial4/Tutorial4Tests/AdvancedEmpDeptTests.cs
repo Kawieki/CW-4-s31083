@@ -46,7 +46,7 @@ public class AdvancedEmpDeptTests
     {
         var emps = Database.GetEmps();
 
-        var jobs = emps.Select(e => e.Job).Distinct();
+        var jobs = emps.Select(e => e.Job).Distinct().ToList();
         
         Assert.Contains("PRESIDENT", jobs);
         Assert.Contains("SALESMAN", jobs);
