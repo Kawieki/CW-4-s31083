@@ -39,7 +39,7 @@ public class EmpDeptSalgradeTests
         var depts = Database.GetDepts();
 
         List<Emp> result = emps
-                .Where(e => depts.Where(d => d.DName == "Chicago")
+                .Where(e => depts.Where(d => d.Loc == "Chicago")
                 .Select(d => d.DeptNo)
                 .Contains(e.DeptNo)).ToList();
 
