@@ -38,7 +38,10 @@ public class EmpDeptSalgradeTests
         var emps = Database.GetEmps();
         var depts = Database.GetDepts();
 
-        List<Emp> result = null;
+        List<Emp> result = emps
+                .Where(e => depts.Where(d => d.DName == "Chicago")
+                .Select(d => d.DeptNo)
+                .Contains(e.DeptNo)).ToList();
 
         Assert.All(result, e => Assert.Equal(30, e.DeptNo));
     }
@@ -106,9 +109,12 @@ public class EmpDeptSalgradeTests
     {
         var emps = Database.GetEmps();
 
-        // var result = null;
-        //
-        // Assert.All(result, r => Assert.NotNull(r.Comm));
+        var result = emps
+            .SelectMany(e => e.Comm != null 
+                ? new[] { new { e.EName, e.Comm } } 
+                : Array.Empty<dynamic>());
+        
+        Assert.All(result, r => Assert.NotNull(r.Comm));
     }
 
     // 8. Join with Salgrade
@@ -155,8 +161,12 @@ public class EmpDeptSalgradeTests
     {
         var emps = Database.GetEmps();
 
-        // var result = null;
-        //
-        // Assert.Contains("ALLEN", result);
+        var result = emps
+            .Where(e => e.Sal >
+                        emps.Where(p => p.DeptNo == e.DeptNo)
+                            .Average(q => q.Sal))
+            .Select(e => e.EName);
+        
+        Assert.Contains("ALLEN", result);
     }
 }
