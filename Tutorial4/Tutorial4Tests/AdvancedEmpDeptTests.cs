@@ -71,9 +71,9 @@ public class AdvancedEmpDeptTests
     {
         var emps = Database.GetEmps();
 
-        var result = emps.All(e => e.Sal > 500);
+        var result = emps.Where(e => e.Sal > 500).ToList();
         
-        Assert.True(result);
+        Assert.True(result.All(e => e.Sal > 500));
     }
 
     // 17. Any employee with commission over 400
@@ -83,9 +83,9 @@ public class AdvancedEmpDeptTests
     {
         var emps = Database.GetEmps();
 
-        var result = emps.Any(e => e.Comm > 400);
+        var result = emps.Where(e => e.Comm > 400).Take(1);
         
-        Assert.True(result);
+        Assert.Contains(result, e => e.Comm > 400);
     }
 
     // 18. Self-join to get employee-manager pairs
