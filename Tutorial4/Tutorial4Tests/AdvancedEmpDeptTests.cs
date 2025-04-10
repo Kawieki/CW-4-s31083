@@ -83,7 +83,7 @@ public class AdvancedEmpDeptTests
     {
         var emps = Database.GetEmps();
 
-        var result = emps.Where(e => e.Comm > 400).Take(1);
+        var result = emps.Where(e => e.Comm > 400).ToList();
         
         Assert.Contains(result, e => e.Comm > 400);
     }
